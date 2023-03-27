@@ -3,7 +3,7 @@ package com.example.newsdatabase.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsapp.domain.NewsData
+import com.example.domain.NewsData
 import com.example.newsdatabase.R
 
 class NewsAdapter(private val listNewsData: List<NewsData>) :

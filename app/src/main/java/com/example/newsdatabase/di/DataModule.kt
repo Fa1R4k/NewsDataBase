@@ -1,14 +1,11 @@
 package com.example.newsdatabase.di
 
-import com.example.newsdatabase.data.NewsRepositoryImpl
-import com.example.newsapp.domain.NewsRepository
+import com.example.data.NewsRepositoryImpl
+import com.example.domain.NewsRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
 abstract class DataModule {
     @Binds
     abstract fun getRepository(impl: NewsRepositoryImpl): NewsRepository

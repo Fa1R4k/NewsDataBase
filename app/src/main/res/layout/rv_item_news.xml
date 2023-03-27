@@ -22,13 +22,15 @@
         android:id="@+id/tvTitleNews"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:foregroundGravity="center"
         android:gravity="center"
+        android:maxWidth="260dp"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/ivNewsImage"
         app:layout_constraintTop_toTopOf="parent"
@@ -53,5 +55,12 @@
         android:layout_marginTop="20dp"
         android:background="#59FFFFFF"
         app:layout_constraintTop_toBottomOf="@id/tvNewsAuthor" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="392dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
