@@ -1,37 +1,44 @@
 package com.example.newsdatabase.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core.ViewModelFactory
+import com.example.feature.SearchActivity
+import com.example.newsdatabase.DaggerApp
 import com.example.newsdatabase.R
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<NewsViewModel>()
+
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: NewsViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (applicationContext as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var adapter: NewsAdapter
         val recycler = findViewById<RecyclerView>(R.id.rv)
         viewModel.liveData.observe(this) {
-            adapter = NewsAdapter(it)
-            recycler.adapter = adapter
+            recycler.adapter = NewsAdapter(it)
             recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         }
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         viewModel.progressLiveData.observe(this) {
             progressBar.isVisible = it
         }
-        viewModel.errorLiveData.observe(this) {
-            Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+
+        findViewById<ImageView>(R.id.imageView).setOnClickListener {
+            val intent = Intent(this@MainActivity, SearchActivity::class.java)
+            startActivity(intent)
         }
-        viewModel.getNews()
     }
 }
