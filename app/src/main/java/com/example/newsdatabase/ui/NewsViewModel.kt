@@ -3,13 +3,11 @@ package com.example.newsdatabase.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.domain.NewsData
 import com.example.domain.NewsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(
@@ -30,12 +28,10 @@ class NewsViewModel @Inject constructor(
     }
 
     private fun fetchData() {
-        viewModelScope.launch {
-            compositeDisposable.add(repository.getNews()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe())
-        }
+        compositeDisposable.add(repository.getNews()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe())
     }
 
     private fun observeData() {
