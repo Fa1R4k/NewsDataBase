@@ -2,16 +2,13 @@ package com.example.data.source
 
 import com.example.data.database.NewsDao
 import com.example.data.database.NewsEntity
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class DataBaseSource @Inject constructor(
     private val newsDao: NewsDao,
 ) {
-    fun getAll(): Flow<List<NewsEntity>> = newsDao.getAll()
-
-    fun getAllWithoutFlow(): List<NewsEntity> = newsDao.getAllWithoutFlow()
-
+    fun getAll(): Observable<List<NewsEntity>> = newsDao.getAll()
 
     fun insertALl(users: List<NewsEntity>) = newsDao.insertALl(users)
 

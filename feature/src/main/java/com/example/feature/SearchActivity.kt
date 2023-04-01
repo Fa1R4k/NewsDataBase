@@ -1,25 +1,16 @@
 package com.example.feature
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Adapter
 import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.ViewModelFactory
 import com.example.core.findDependencies
-import com.example.domain.NewsData
 import com.example.feature.di.DaggerFeatureComponent
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchActivity : AppCompatActivity() {
@@ -37,14 +28,14 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_second)
         bindView()
         setupMenuRecyclerView()
-        observeFlow()
+        observeLiveData()
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (start != 0) {
-                    viewModel.setQuery(s.toString())
+                    viewModel.search(s.toString())
                 }
             }
 
@@ -56,30 +47,19 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun bindView() {
-        etFoundString = findViewById<EditText>(R.id.etFoundString)
-        rvFoundNews = findViewById<RecyclerView>(R.id.rvFoundNews)
+        etFoundString = findViewById(R.id.etFoundString)
+        rvFoundNews = findViewById(R.id.rvFoundNews)
     }
 
-    private fun observeFlow(){
-        this@SearchActivity.lifecycleScope.launch {
-            viewModel.results
-                .flowWithLifecycle(
-                    this@SearchActivity.lifecycle,
-                    Lifecycle.State.STARTED
-                )
-                .distinctUntilChanged()
-                .collect {
-                    adapter.setItems(it)
-                }
+    private fun observeLiveData() {
+        viewModel.liveData.observe(this) {
+            adapter.setItems(it)
         }
     }
 
     private fun setupMenuRecyclerView() {
         rvFoundNews.adapter = adapter
-        rvFoundNews.layoutManager = LinearLayoutManager(
-            this@SearchActivity,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        rvFoundNews.layoutManager =
+            LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
     }
 }

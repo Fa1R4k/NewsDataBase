@@ -10,7 +10,7 @@ class NewsDataMapper @Inject constructor() {
     operator fun invoke(response: NewsResponse): NewsData = with(response) {
         return NewsData(
             title = title.orEmpty(),
-            imageLink = imageLink.orEmpty(),
+            imageLink = urlToImage.orEmpty(),
             url = url.orEmpty(),
             author = author.orEmpty()
         )

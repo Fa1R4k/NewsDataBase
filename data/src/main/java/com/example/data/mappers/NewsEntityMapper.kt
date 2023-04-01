@@ -5,14 +5,12 @@ import com.example.data.models.NewsResponse
 import javax.inject.Inject
 
 class NewsEntityMapper @Inject constructor() {
-    operator fun invoke(response: List<NewsResponse>): List<NewsEntity> = with(response){
-        return response.map {
-            NewsEntity(
-                title = it.title.orEmpty(),
-                imageLink = it.imageLink.orEmpty(),
-                url = it.url.orEmpty(),
-                author = it.author.orEmpty()
-            )
-        }
-    }
+    operator fun invoke(response: NewsResponse): NewsEntity =
+        NewsEntity(
+            title = response.title.orEmpty(),
+            imageLink = response.urlToImage.orEmpty(),
+            url = response.url.orEmpty(),
+            author = response.author.orEmpty()
+        )
+
 }

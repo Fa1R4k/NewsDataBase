@@ -1,12 +1,10 @@
 package com.example.domain
 
-import kotlinx.coroutines.flow.Flow
-
 interface NewsRepository {
 
-    suspend fun getNews()
+    fun getNews(): io.reactivex.Completable
 
-    suspend fun getNewsFromDataBase(): Flow<List<NewsData>>
+    fun getNewsFromDataBase(): io.reactivex.Observable<List<NewsData>>
 
-    suspend fun search(query : String): List<NewsData>
+    fun search(query : String): io.reactivex.Observable<List<NewsData>>
 }

@@ -5,10 +5,8 @@ import com.example.data.mappers.NewsEntityMapper
 import com.example.data.source.DataBaseSource
 import com.example.domain.NewsData
 import com.example.domain.NewsRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import io.reactivex.Completable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
@@ -18,23 +16,20 @@ class NewsRepositoryImpl @Inject constructor(
     private val dataBaseSource: DataBaseSource,
 ) : NewsRepository {
 
-    override suspend fun getNews() {
-        withContext(Dispatchers.IO) {
-            dataBaseSource.delete(dataBaseSource.getAllWithoutFlow())
-            val articles = newsService.getNews("Tesla").execute().body()
-                ?: throw Exception()
-            articles.articles?.let { newsEntityMapper(it) }?.let { dataBaseSource.insertALl(it) }
-            articles.articles?.map { newsDataMapper(it) } ?: listOf()
-        }
-    }
-
-    override suspend fun getNewsFromDataBase(): Flow<List<NewsData>> =
-        withContext(Dispatchers.IO) {
-            dataBaseSource.getAll().map { newsDataMapper.entityListToDataList(it) }
+    override fun getNews(): Completable =
+        newsService.getNews("any").flatMapCompletable { single ->
+            val mappedNews = single.articles?.map { newsEntityMapper(it) }.orEmpty()
+            dataBaseSource.insertALl(mappedNews)
+            Completable.complete()
         }
 
-    override suspend fun search(query: String): List<NewsData> = withContext(Dispatchers.IO) {
-        val articles = newsService.getNews(query).execute().body() ?: throw Exception()
-        articles.articles?.map { newsDataMapper(it) } ?: listOf()
+
+    override fun getNewsFromDataBase(): Observable<List<NewsData>> =
+        dataBaseSource.getAll().map { observable -> observable.map { newsDataMapper(it) } }
+
+
+    override fun search(query: String): Observable<List<NewsData>> {
+        return newsService.getNews(query)
+            .map { listResponse -> listResponse.articles?.map { newsDataMapper(it) } ?: emptyList() }.toObservable()
     }
 }

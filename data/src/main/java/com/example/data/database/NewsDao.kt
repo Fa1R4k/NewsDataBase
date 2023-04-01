@@ -1,12 +1,12 @@
 package com.example.data.database
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.Observable
 
 @Dao
 interface NewsDao {
     @Query("SELECT * FROM news_table")
-    fun getAll(): Flow<List<NewsEntity>>
+    fun getAll(): Observable<List<NewsEntity>>
 
     @Query("SELECT * FROM news_table")
     fun getAllWithoutFlow(): List<NewsEntity>
