@@ -12,9 +12,8 @@ interface NewsDao {
     fun getAllWithoutFlow(): List<NewsEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertALl(users: List<NewsEntity>)
+    fun insertAll(users: List<NewsEntity>)
 
     @Delete
     fun delete(users: List<NewsEntity>)
-
 }

@@ -19,7 +19,7 @@ class NewsRepositoryImpl @Inject constructor(
     override fun getNews(): Completable =
         newsService.getNews("any").flatMapCompletable { single ->
             val mappedNews = single.articles?.map { newsEntityMapper(it) }.orEmpty()
-            dataBaseSource.insertALl(mappedNews)
+            dataBaseSource.insertAll(mappedNews)
             Completable.complete()
         }
 

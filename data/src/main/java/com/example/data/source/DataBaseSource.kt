@@ -9,9 +9,6 @@ class DataBaseSource @Inject constructor(
     private val newsDao: NewsDao,
 ) {
     fun getAll(): Observable<List<NewsEntity>> = newsDao.getAll()
-
-    fun insertALl(users: List<NewsEntity>) = newsDao.insertALl(users)
-
+    fun insertAll(users: List<NewsEntity>) = newsDao.insertAll(users)
     fun delete(users: List<NewsEntity>) = newsDao.delete(users)
-
 }

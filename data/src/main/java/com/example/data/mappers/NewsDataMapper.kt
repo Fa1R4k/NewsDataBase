@@ -24,15 +24,4 @@ class NewsDataMapper @Inject constructor() {
             author = author
         )
     }
-
-    fun entityListToDataList(data: List<NewsEntity>): List<NewsData> {
-        return data.map {
-            NewsData(
-                title = it.title,
-                imageLink = it.imageLink,
-                url = it.url,
-                author = it.author
-            )
-        }
-    }
 }

@@ -12,5 +12,4 @@ class NewsEntityMapper @Inject constructor() {
             url = response.url.orEmpty(),
             author = response.author.orEmpty()
         )
-
 }

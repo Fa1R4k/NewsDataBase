@@ -1,10 +1,10 @@
 package com.example.domain
 
+import io.reactivex.Completable
+import io.reactivex.Observable
+
 interface NewsRepository {
-
-    fun getNews(): io.reactivex.Completable
-
-    fun getNewsFromDataBase(): io.reactivex.Observable<List<NewsData>>
-
-    fun search(query : String): io.reactivex.Observable<List<NewsData>>
+    fun getNews(): Completable
+    fun getNewsFromDataBase(): Observable<List<NewsData>>
+    fun search(query : String): Observable<List<NewsData>>
 }

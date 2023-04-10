@@ -27,6 +27,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
         bindView()
+        viewModel.observeSearch()
         setupMenuRecyclerView()
         observeLiveData()
 
@@ -38,12 +39,9 @@ class SearchActivity : AppCompatActivity() {
                     viewModel.search(s.toString())
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
-
         etFoundString.addTextChangedListener(textWatcher)
-
     }
 
     private fun bindView() {
