@@ -31,16 +31,21 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.dagger:dagger:2.44'
     implementation project(path: ':domain')
+
+    //Dagger
+    implementation 'com.google.dagger:dagger:2.44'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.44'
-    implementation 'androidx.core:core-ktx:1.9.0'
+
+    //Android
+    implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
+
+
+    //Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    def work_version = "2.8.0"
-
-    implementation "androidx.work:work-runtime-ktx:$work_version"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

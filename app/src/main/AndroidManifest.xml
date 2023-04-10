@@ -17,6 +17,8 @@
         android:theme="@style/Theme.NewsDataBase"
         tools:targetApi="31">
 
+        <activity android:name="com.example.feature.SearchActivity" />
+
         <activity
             android:name="com.example.newsdatabase.ui.MainActivity"
             android:exported="true">
